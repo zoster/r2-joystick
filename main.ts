@@ -1,6 +1,3 @@
-let buttonVal = 0
-let item = 0
-let stickY = 0
 function button () {
     buttonVal = pins.analogReadPin(AnalogPin.P2)
     if (buttonVal < 256) {
@@ -19,15 +16,50 @@ function button () {
         item = 0
     }
 }
+let item = 0
+let buttonVal = 0
+radio.setGroup(1)
 basic.forever(function () {
     button()
     if (item > 0) {
+        radio.sendString("" + (item))
         basic.showNumber(item)
     } else if (pins.analogReadPin(AnalogPin.P0) < 400) {
-        basic.showString("-X")
-    } else {
-        stickY = pins.analogReadPin(AnalogPin.P1)
-        basic.clearScreen()
+        radio.sendString("left")
+        basic.showLeds(`
+            . . . . .
+            . # . . .
+            # . . . .
+            . # . . .
+            . . . . .
+            `)
+    } else if (pins.analogReadPin(AnalogPin.P0) > 600) {
+        radio.sendString("right")
+        basic.showLeds(`
+            . . . . .
+            . . . # .
+            . . . . #
+            . . . # .
+            . . . . .
+            `)
+    } else if (pins.analogReadPin(AnalogPin.P1) < 400) {
+        radio.sendString("backward")
+        basic.showLeds(`
+            . . . . .
+            . . . . .
+            . . . . .
+            . # . # .
+            . . # . .
+            `)
+    } else if (pins.analogReadPin(AnalogPin.P1) > 600) {
+        radio.sendString("forward")
+        basic.showLeds(`
+            . . # . .
+            . # . # .
+            . . . . .
+            . . . . .
+            . . . . .
+            `)
     }
-    basic.pause(70)
+    basic.pause(200)
 })

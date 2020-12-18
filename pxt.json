@@ -4,7 +4,8 @@
     "dependencies": {
         "core": "*",
         "radio": "*",
-        "microphone": "*"
+        "microphone": "*",
+        "Star wars": "github:zoster/vader-theme#53afcdffcea0c5ea638163b12aca16234b903ff3"
     },
     "files": [
         "main.blocks",
